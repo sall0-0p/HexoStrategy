@@ -38,8 +38,8 @@ export namespace Camera {
 	let currentY = 0;
 	let targetY = 0;
 
-	let currentRotation = 45;
-	let currentTilt = 45;
+	let currentRotation = 90;
+	let currentTilt = 90;
 	let currentRadius = 30;
 
 	let targetRadius = currentRadius;
@@ -128,10 +128,10 @@ export namespace Camera {
 	}
 
 	function processCamera(deltaTime: number) {
-		if (UserInputService.IsKeyDown(Enum.KeyCode.E)) currentRotation -= 2;
-		if (UserInputService.IsKeyDown(Enum.KeyCode.Q)) currentRotation += 2;
-		if (UserInputService.IsKeyDown(Enum.KeyCode.T)) currentTilt += 2;
-		if (UserInputService.IsKeyDown(Enum.KeyCode.F)) currentTilt -= 2;
+		// if (UserInputService.IsKeyDown(Enum.KeyCode.E)) currentRotation -= 2;
+		// if (UserInputService.IsKeyDown(Enum.KeyCode.Q)) currentRotation += 2;
+		// if (UserInputService.IsKeyDown(Enum.KeyCode.T)) currentTilt += 2;
+		// if (UserInputService.IsKeyDown(Enum.KeyCode.F)) currentTilt -= 2;
 
 		const finalTilt = math.clamp(currentTilt + scrollTiltOffset, minTilt, maxTilt);
 

@@ -36,6 +36,12 @@ export class Heatmap {
 
 		this.connections.set(hex, [connection]);
 		this.updateHex(hex);
+		const groupKey = this.findCurrentGroupKey(hex);
+		if (groupKey) {
+			const group = this.groups.get(groupKey);
+			group!.container.Parent = undefined;
+			group!.container.Parent = Workspace.WaitForChild("Heatmaps");
+		}
 	}
 
 	public removeHex(hex: BasePart) {
@@ -51,7 +57,6 @@ export class Heatmap {
 	public updateHex(hex: BasePart) {
 		const raw = hex.GetAttribute(this.attributeName);
 		const key = this.bucketFn(raw);
-		print(raw, key)
 
 		const oldKey = this.findCurrentGroupKey(hex);
 		if (oldKey === key) return;
@@ -83,8 +88,6 @@ export class Heatmap {
 		}
 
 		hex.Parent = group.container;
-		group.container.Parent = undefined;
-		group.container.Parent = Workspace.WaitForChild("Heatmaps");
 	}
 
 	public clear() {

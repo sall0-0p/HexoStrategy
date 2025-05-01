@@ -1,27 +1,47 @@
 import { Camera } from "client/modules/camera";
 import { Players, Workspace } from "@rbxts/services";
-import { HeatmapManager } from "client/modules/heatmap/HeatmapManager" // or wherever you put it
+import { HeatmapManager } from "client/modules/heatmap/HeatmapManager"
 
 Camera.Init();
 
 const heatmapMgr = new HeatmapManager()
 const rowHeatmap = heatmapMgr.create(
-  /* name */           "RowHeatmap",
-  /* attributeName */  "r",
-  /* bucketFn */       (raw) => `row_${raw as number}`,         // group key = "row_0", "row_1", …
-  /* styleFn */        (key) => {
-    // extract the row index from the key
-    const row = tonumber(key.split("_")[1])!
-    // pick a hue based on row (mod 10 for demo—extend as needed)
-    const hue = (row % 10) / 10
-    const fillColor = Color3.fromHSV(hue, 0.8, 0.9)
-    const outlineColor = fillColor.Lerp(new Color3(1,1,1), 0.5)
-    return {
-      FillColor:         fillColor,
-      FillTransparency:  0.6,
-      OutlineColor:      outlineColor,
-      OutlineTransparency: 0.3,
-    }
+  "NationMap",
+   "owner",
+    (raw): string => {
+      if (raw) {
+        return raw as string;
+      } else {
+        return "NTL";
+      }
+    },         // group key = "row_0", "row_1", …
+    (key) => {
+      if (key === "NTL") {
+        return {
+          FillColor:         Color3.fromRGB(255, 255, 255),
+          FillTransparency:  0.6,
+          OutlineColor:      Color3.fromRGB(255, 255, 255),
+          OutlineTransparency: 0.3,
+        }
+      } else {
+        const nation = Workspace.WaitForChild("Nations").FindFirstChild(key);
+
+        if (nation) {
+          return {
+            FillColor:         nation.GetAttribute("color") as Color3,
+            FillTransparency:  0.6,
+            OutlineColor:      nation.GetAttribute("color") as Color3,
+            OutlineTransparency: 0.3,
+          }
+        } else {
+          return {
+            FillColor:         Color3.fromRGB(255, 255, 255),
+            FillTransparency:  0.6,
+            OutlineColor:      Color3.fromRGB(255, 255, 255),
+            OutlineTransparency: 0.3,
+          }
+        }
+      }
   }
 )
 

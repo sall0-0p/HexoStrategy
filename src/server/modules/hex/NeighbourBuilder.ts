@@ -1,4 +1,4 @@
-import { HexDefs, HexDef } from "server/modules/hex/HexDefs";
+import { HexRegistry } from "./HexRegistry";
 
 const CUBE_DIRECTIONS: [number, number, number][] = [
 	[1, -1, 0],
@@ -9,12 +9,12 @@ const CUBE_DIRECTIONS: [number, number, number][] = [
 	[0, -1, 1],
 ];
 
-export function buildNeighborsCube(defs: Record<number, HexDef>): void {
+export function buildNeighborsCube(): void {
 	const coordMap = new Map<string, number>();
-	for (const [id, def] of pairs(defs)) {
-		coordMap.set(`${def.q},${def.r},${def.s}`, id as number);
+	for (const [id, def] of pairs(HexRegistry)) {
+		coordMap.set(`${def.q},${def.r},${def.s}`, id as unknown as number);
 	}
-	for (const [id, def] of pairs(defs)) {
+	for (const [id, def] of pairs(HexRegistry)) {
 		const neigh: string[] = [];
 		for (const [dx, dy, dz] of CUBE_DIRECTIONS) {
 			const key = `${def.q + dx},${def.r + dy},${def.s + dz}`;
